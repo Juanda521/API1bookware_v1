@@ -52,11 +52,12 @@ class usuarioService{
 
 
     //findOne
-
+  
     async findOne(id){
+        const client = new MongoClient(uri);
         try{
             await client.connect();
-            const usuarios = await client.db('BookWare').collection('usuarios').findOne({idusuario:id});
+            const usuarios = await client.db('BookWare').collection('usuarios').findOne({idUsuario:Number(id)});
             return usuarios;
         }catch(e){
             console.log(e);

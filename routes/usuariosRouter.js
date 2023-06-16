@@ -33,14 +33,14 @@ router.post('/',async (req,res)=>{
 //find
 
 router.get('/',async (req,res)=>{
-    const {limit,offset}  =req.query;
+    const {limit,offset}  = req.query;
     // const client  = new MongoClient(uri)
     // await client.connect();
     const resultado = await usuario.find(limit,offset)
     if(resultado){
         res.status(200).send(resultado)
     }else{
-        res.status(404).send("no se encontro el usuario con este id")
+        res.status(404).send("no se encontraron resultados")
     }
    
 })
@@ -56,7 +56,7 @@ router.get('/:id',async (req,res)=>{
     // await client.connect();
     const resultado = await usuario.findOne(id)
     if(resultado){
-        res.send(resultado)
+        res.status(200).send(resultado)
     }else{
         res.send("no se encontro el usuario con este id")
     }

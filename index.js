@@ -1,12 +1,13 @@
 const express = require ('express');
-//const {MongoClient, ObjectId} = require ('mongodb');
 const bodyparser  = require('body-parser');
 require ('dotenv').config();
 
 const routerApi = require('./routes/indexRouter.js');
 
 const morgan = require('morgan');
+//cabecera de la peticion (para recibir mas detallado los elementos de la peticion)
 const helmet = require('helmet');
+
 const cors = require('cors');
 
 
