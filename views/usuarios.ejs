@@ -1,0 +1,65 @@
+
+
+<%- include('../public/html/parteSuperior.html') %>
+
+<div class="container mt-5 bg-primary p-3">
+    
+    <table class="table text-primary table-light">
+        <thead>
+            <tr>
+            <th scope="col">id</th>
+            <th scope="col">id rol</th>
+            <th scope="col">nombre</th>
+            <th scope="col">apellido</th>
+            <th scope="col">correo</th>
+            <th> acciones </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% resultado.forEach(function(usuario) { %>
+            <!-- // if (index===0){
+            //     return;
+            // }%> -->
+            <tr>
+                <th scope="row"><%=usuario.idUsuario %></th>
+                <td><%=usuario.idRol %></td>
+                <td><%=usuario.nombreUsuario %></td>
+                <td><%=usuario.apellidoUsuario %></td>
+                <td><%=usuario.correoUsuario %></td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar<%= usuario.idUsuario %>">
+                        eliminar
+                      </button>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="eliminar<%= usuario.idUsuario%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">eliminar <%= usuario.nombreUsuario %></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>
+                                esta seguro que desea realizar esta accion?
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-primary" onclick="prueba()">eliminar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <button type="button" class="btn btn-primary"> editar </button>
+                </td>
+            </tr>
+            <% 
+            })
+        %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../public/html/parteInferior.html') %>
