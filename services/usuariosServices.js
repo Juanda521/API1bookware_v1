@@ -1,6 +1,5 @@
 const express = require ('express');
 const {MongoClient, ObjectId} = require ('mongodb');
-const bodyparser  = require('body-parser');
 require ('dotenv').config();
 
 
@@ -17,16 +16,16 @@ class usuarioService{
     //insertOne
 
     async insertOne(body){
+        console.log(body);
 
         const client = new MongoClient(uri)
         try {
             await client.connect();
-            const usuario = await client.db('BookWare').collection('usuarios').insertOne({body})
-            return usuario;
+            const usuario = await client.db('BookWare').collection('usuarioss').insertOne(body)
+            console.log(usuario);
+            return (usuario)  ? usuario : 'error' ;
         } catch(e){
             console.log(e);
-        }finally{
-            await client.close();
         }
     }
 
@@ -40,7 +39,7 @@ class usuarioService{
         const client = new MongoClient(uri);
         try{
             await client.connect();
-            const usuarios = await client.db('BookWare').collection('usuarios').find({}).skip(Number(offset)).limit(Number(limit)).toArray();
+            const usuarios = await client.db('BookWare').collection('usuarioss').find({}).skip(Number(offset)).limit(Number(limit)).toArray();
             return usuarios;
         }catch(e){
             console.log(e);
@@ -50,14 +49,12 @@ class usuarioService{
     }
 
 
-
     //findOne
-  
     async findOne(id){
         const client = new MongoClient(uri);
         try{
             await client.connect();
-            const usuarios = await client.db('BookWare').collection('usuarios').findOne({idUsuario:Number(id)});
+            const usuarios = await client.db('BookWare').collection('usuarioss').findOne({'idUsuario':Number(id)});
             return usuarios;
         }catch(e){
             console.log(e);
@@ -75,16 +72,17 @@ class usuarioService{
     //deleteOne
 
 
-    async  deleteOne(){
-
+    async  deleteOne(id){
+            const client  = new MongoClient(uri);
         try{
             await client.connect();
-            const usuarios = await client.db('BookWare').collection('usuarios').deleteOne({idusuario:id});
+            //ya que id nos llega como objeto, hacemos esto para obtener el valor del atributo id
+            const valorId = id.id;
+         
+            const usuarios = await client.db('BookWare').collection('usuarioss').deleteOne({idUsuario:Number(valorId)});
             return usuarios;
         }catch(e){
             console.log(e);
-        }finally{
-            await client.close();
         }
     }
 

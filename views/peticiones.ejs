@@ -1,3 +1,30 @@
 <%- include('../public/html/parteSuperior.html') %>
 
 <h1>prueba en peticiones</h1>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id peticion</th>
+        <th scope="col">id usuario</th>
+        <th scope="col">id libro</th>
+        <th scope="col">fecha peticion</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% resultado.forEach(peticion => { %>
+
+            <tr>
+                <th scope="row"><%= peticion.idPeticion %> </th>
+                <td><%= peticion.idUsuario %></td>
+                <td><%= peticion.idLibro %></td>
+                <td><%= peticion.fechaPeticion %></td>
+            </tr>
+        <% 
+        });
+        %>
+      
+    </tbody>
+  </table>
+
+<%- include('../public/html/parteInferior.html') %>

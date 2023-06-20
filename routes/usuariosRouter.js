@@ -1,44 +1,50 @@
 
 const express = require ('express');
 const {MongoClient, ObjectId} = require ('mongodb');
-const bodyparser  = require('body-parser');
-require ('dotenv').config();
-
-const uri = "mongodb+srv://juanda52141:juanda52141@cluster0.hlnd5vi.mongodb.net/?retryWrites=true&w=majority";
-
 const usuariosServices = require('../services/usuariosServices');
-//const port = 3000;
-
-//const app = express();
-
+const bodyParser = require('body-parser');
 const router = express.Router();
 const usuario = new usuariosServices();
+router.use(bodyParser.json());
+
+
 
 //insertOne
 
 router.post('/',async (req,res)=>{
-    const body = req.body;
+    const body = await req.body;
     const resultado = await usuario.insertOne(body)
     if (resultado){
-        res.status(201).json({
+        res.status(200).json({
             "message":"se ha insertado el usuario",
             data:body,
-            usuario,
+            resultado,
         });
     }else{
-        res.send("no se encontro la pelicula")
+        res.send("no se pudo insertar el usuario ")
+        res.send( console.log(body))
     }
 })
 
-//find
 
 router.get('/',async (req,res)=>{
     const {limit,offset}  = req.query;
-    // const client  = new MongoClient(uri)
-    // await client.connect();
     const resultado = await usuario.find(limit,offset)
     if(resultado){
-        res.status(200).send(resultado)
+        res.render('usuarios.ejs',{resultado});
+        // res.status(200).send(resultado)
+    }else{
+        res.status(404).send("no se encontraron resultados")
+    }
+   
+})
+
+router.get('/pruebas',async (req,res)=>{
+    const {limit,offset}  = req.query;
+    const resultado = await usuario.find(limit,offset)
+    if(resultado){
+        res.render('usuarios.ejs',{resultado});
+        // res.status(200).send(resultado)
     }else{
         res.status(404).send("no se encontraron resultados")
     }
@@ -52,7 +58,7 @@ router.get('/',async (req,res)=>{
 router.get('/:id',async (req,res)=>{
     // const client  = new MongoClient(uri)
     const id = req.params.id;
-    // console.log(id)
+    console.log(id)
     // await client.connect();
     const resultado = await usuario.findOne(id)
     if(resultado){
@@ -93,7 +99,7 @@ router.patch('/:id',async (req,res)=>{
 })
 
 router.delete('/:id',async (req,res)=>{
-    const client  = new MongoClient(uri)
+   
     const id = req.params;
     // console.log(id);
     const usuarios = await usuario.deleteOne(id);
